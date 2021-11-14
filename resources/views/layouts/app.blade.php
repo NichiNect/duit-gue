@@ -18,21 +18,18 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('style')
 </head>
 <body>
     <div id="app">
 
         <x-navbar></x-navbar>
         
-        <div class="container mt-5">
-            <div class="jumbotron">
-                <div class="container">
-                    <h1 class="display-4">{{ config('app.name', 'DuitGue') }}</h1>
-                    <hr>
-                    <p class="lead">This app is a personal bookkeeping web application, built with <a href="https://laravel.com">Laravel Framework</a>. It designed for easy bookkeeping for personal income and spending. </p>
-                </div>
-            </div>
-        </div>
+        <main class="py-4">
+            @yield('content')
+        </main>
     </div>
+
+    @yield('script')
 </body>
 </html>
