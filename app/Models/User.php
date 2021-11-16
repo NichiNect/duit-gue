@@ -13,6 +13,13 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var string[]
@@ -37,11 +44,18 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array
+     * Relation One to Many with `categories` table
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function categories ()
+    {
+        return $this->hasMany(Category::class, 'creator_id', 'id');
+    }
+
+    /**
+     * Relation One to Many with `transactions` table
+     */
+    public function transactions ()
+    {
+        return $this->hasMany(Transaction::class, 'creator_id', 'id');
+    }
 }
