@@ -18,6 +18,10 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    {{-- Font Awesome --}}
+    <link rel="stylesheet" href="{{ asset('vendor/fontawesome-5.14.0/css/all.min.css') }}">
+
     @yield('style')
 </head>
 <body>

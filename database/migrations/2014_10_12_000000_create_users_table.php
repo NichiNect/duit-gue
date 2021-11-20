@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('username');
             $table->string('email');
             $table->string('password');
-            $table->unsignedBigInteger('balance');
+            $table->unsignedBigInteger('balance')->nullable();
             $table->tinyInteger('is_active');
             $table->rememberToken();
             $table->timestamps();

@@ -17,7 +17,7 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->date('date');
             $table->unsignedBigInteger('amount');
-            $table->integer('transaction_status_id');
+            $table->integer('transaction_status_id')->nullable();
             $table->string('description');
             $table->unsignedBigInteger('category_id')->nullable();
             $table->unsignedBigInteger('creator_id');

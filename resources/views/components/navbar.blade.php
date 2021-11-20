@@ -10,7 +10,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
-
+                @guest
+                
+                @else
+                    <li class="nav-item">
+                        <a href="" class="nav-link">
+                            <img src="{{ asset('images/coins.png') }}" alt="" class="">
+                            Rp. {{ number_format(Helper::balance()) }}
+                        </a>
+                    </li>
+                @endguest
             </ul>
 
             <!-- Right Side Of Navbar -->
@@ -29,6 +38,13 @@
                         </li>
                     @endif
                 @else
+                    <li class="nav-item">
+                        <a href="{{ route('transactions.index') }}" class="nav-link"><i class="fas fa-money-check-alt mr-1"></i>Transactions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link"><i class="fas fa-chart-bar mr-1"></i>Reports</a>
+                    </li>
+
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }}

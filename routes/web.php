@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\{TransactionController};
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +22,9 @@ Auth::routes([
     'reset' => false
 ]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', [TransactionController::class, 'index'])->name('home');
+    Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+    Route::post('/transaction/new-transaction', [TransactionController::class, 'store'])->name('transactions.store');
+
+});
