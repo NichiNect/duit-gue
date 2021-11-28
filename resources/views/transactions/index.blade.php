@@ -1,11 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-@if($errors->any())
-    @foreach ($errors->all() as $error)
-        <div>{{ $error }}</div>
-    @endforeach
-@endif
 <div class="container">
     <div class="row my-3">
         <div class="col-md-8">
@@ -44,7 +39,13 @@
         </div>
     </div>
 
-    <div class="row justify-content-center my-5">
+    <div class="row my-4">
+        <div class="col-md-12">
+            <x-alert></x-alert>
+        </div>
+    </div>
+
+    <div class="row justify-content-center my-3">
         <div class="col-md-12">
             <div class="card shadow-sm">
                 <div class="card-body">
