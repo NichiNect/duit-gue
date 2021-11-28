@@ -26,7 +26,7 @@ class Helper {
 
         return $transactions->sum(function ($transaction) {
 
-            $balance = ($transaction->transaction_status_id == 1) ? $transaction->amount : -$transaction->amount;
+            $balance = ($transaction->transaction_status_id == 1) ? $transaction->amount : - $transaction->amount;
 
             // User::findOrFail(auth()->user()->id)->update([
             //     'balance' => $balance
@@ -34,6 +34,21 @@ class Helper {
 
             return $balance;
         });
+    }
+
+    /**
+     * Get array of date list.
+     *
+     * @return array
+     */
+    public static function getDates () {
+        $dates = [];
+        foreach (range(1, 31) as $date) {
+            $date = str_pad($date, 2, 0, STR_PAD_LEFT);
+            $dates[$date] = $date;
+        }
+
+        return $dates;
     }
 
     /**

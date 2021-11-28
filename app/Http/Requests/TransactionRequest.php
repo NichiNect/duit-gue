@@ -26,7 +26,7 @@ class TransactionRequest extends FormRequest
     {
         return [
             'date' => 'required',
-            'category' => 'required|exists:categories,id',
+            'category' => 'nullable|numeric',
             'description' => 'required|max:255',
             'amount' => 'required|numeric',
             'transaction_status' => ['required', Rule::in([1, 2])]

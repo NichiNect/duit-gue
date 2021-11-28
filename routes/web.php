@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\{TransactionController};
+use \App\Http\Controllers\{TransactionController, CategoryController};
 
 /*
 |--------------------------------------------------------------------------
@@ -26,5 +26,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [TransactionController::class, 'index'])->name('home');
     Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
     Route::post('/transaction/new-transaction', [TransactionController::class, 'store'])->name('transactions.store');
+    Route::get('/transactions/{id}', [TransactionController::class, 'show'])->name('transactions.show');
+    Route::put('/transactions/{id}/update', [TransactionController::class, 'update'])->name('transactions.update');
+
+    Route::resource('/categories', CategoryController::class);
 
 });

@@ -71,7 +71,15 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        //
+        $transaction = Transaction::with('category')->findOrFail($id);
+
+        if (request()->expectsJson()) {
+            return response()->json([
+                'statusCode' => 200,
+                'message' => 'Request successfully.',
+                'data' => $transaction
+            ]);
+        }
     }
 
     /**
@@ -92,9 +100,31 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TransactionRequest $request, $id)
     {
-        //
+        $transaction = Transaction::findOrFail($id);
+
+        $transaction->update([
+            'date' => $request->date,
+            'category' => $request->category,
+            'description' => $request->description,
+            'amount' => $request->amount,
+            'category_id' => $request->category ? $request->category : null,
+            'transaction_status_id' => $request->transaction_status ? $request->transaction_status : null,
+            'creator_id' => auth()->user()->id
+        ]);
+
+        if (request()->expectsJson()) {
+            $transaction = Transaction::with('creator', 'category')->findOrFail($id);
+
+            return response()->json([
+                'statusCode' => 200,
+                'message' => 'Request successfully.',
+                'data' => $transaction
+            ]);
+        }
+
+        return redirect()->route('transactions.index')->with('success', 'Transaction updated successfully');
     }
 
     /**

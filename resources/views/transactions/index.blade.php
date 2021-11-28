@@ -1,12 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
+@if($errors->any())
+    @foreach ($errors->all() as $error)
+        <div>{{ $error }}</div>
+    @endforeach
+@endif
 <div class="container">
     <div class="row my-3">
-        <div class="col-md-4">
+        <div class="col-md-8">
             <h2>Transaction List</h2>
+            <h5>Total Transaction: {{ count($transactions) }}</h5>
         </div>
-        <div class="col-md-4"></div>
         <div class="col-md-4 text-right">
             <a href="#" class="btn btn-success" data-toggle="modal" data-target="#addIncome"><i class="fas fa-plus"></i> Add Income</a>
             <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#addSpending"><i class="fas fa-minus"></i> Add Spending</a>
@@ -47,6 +52,15 @@
                         <div class="col-md-12">
                             <form action="" method="get" class="form-inline">
                                 <input type="text" name="query" class="form-control mx-2" placeholder="Search transaction..">
+                                <select name="date" id="date" class="form-control">
+                                    <option value="" selected disabled>-- Date --</option>
+                                    <option value="">--Not Choice--</option>
+                                    @foreach (Helper::getDates() as $date)
+                                        <option value="{{ $date }}" @if (request('date') != null && $date == request('date'))
+                                            selected
+                                        @endif>{{ $date }}</option>
+                                    @endforeach
+                                </select>
                                 <select name="month" id="month" class="form-control mx-2">
                                     @php
                                         $month = Helper::getMonths();
@@ -75,7 +89,7 @@
                                     @endforeach
                                 </select>
                                 <button type="submit" class="btn btn-primary mx-2">Submit</button>
-                                <button id="reset" class="btn btn-secondary mx-2">Reset</button>
+                                <button type="reset" class="btn btn-secondary mx-2">Reset</button>
                             </form>
                         </div>
                     </div>
@@ -94,7 +108,10 @@
                                 <tbody>
                                     @foreach ($transactions as $key => $transaction)
                                     <tr>
-                                        <td>1</td>
+                                        <td>
+                                            {{-- {{ $transactions->count() * ($transactions->currentPage() - 1) + $loop->iteration }} --}}
+                                            {{ $key+=1 }}
+                                        </td>
                                         <td>{{ $transaction->date }}</td>
                                         <td>
                                             <div class="d-flex justify-content-between">
@@ -106,11 +123,42 @@
                                                 @endif
                                             </div>
                                         </td>
-                                        <td>{{ $transaction->amount }}</td>
-                                        <td>Aksi</td>
+                                        <td class="text-right">
+                                            @if ($transaction->transaction_status_id == 2)
+                                                -
+                                            @endif
+                                            Rp. {{ number_format($transaction->amount) }}
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-link" id="editbutton" data-url="{{ route('transactions.show', $transaction->id) }}" data-urlupdate="{{ route('transactions.update', $transaction->id) }}">Edit</a>
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="3" class="text-right">Income Total</th>
+                                        <th class="text-right">Rp. {{ number_format($incomeTotal) }}</th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="3" class="text-right">Spending Total</th>
+                                        <th class="text-right">Rp. {{ number_format($spendingTotal) }}</th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="3" class="text-right">Final Total</th>
+                                        <th class="text-right">Rp. {{ number_format($incomeTotal - $spendingTotal) }}</th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -211,4 +259,97 @@
     </div>
 </x-modal>
 
+
+<x-modal name="updateTransaction" method="post" title="Edit Transaction" okButton="Edit" okButtonColorClass="primary" closeButton="Close" closeButtonColorClass="secondary">
+    @csrf
+    @method('put')
+    <input type="hidden" name="transaction_status" value="2">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" name="date" class="form-control" id="date" value="{{ date('d-m-Y', time()) }}">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select name="category" id="category" class="form-control">
+                    
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea name="description" id="description" cols="30" rows="5" class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">Rp.</div>
+                    </div>
+                    <input type="number" name="amount" class="form-control" id="amount">
+                </div>
+            </div>
+        </div>
+    </div>
+</x-modal>
+
+@endsection
+
+@section('script')
+<script>
+    $(document).ready(function() {
+
+        $('table td #editbutton').on('click', async function (e) {
+
+            e.preventDefault();
+            let url = $(this).data('url');
+
+            let transaction = await axios.get(url);
+
+            if (transaction.status == 200) {
+
+                let categories = await axios.get(`{{ route('categories.index') }}`);
+
+                if (categories.status == 200) {
+
+                    $('#updateTransaction form #date').val(transaction.data.data.date);
+                    $('#updateTransaction form #description').val(transaction.data.data.description);
+                    $('#updateTransaction form #amount').val(transaction.data.data.amount);
+                    let options = $('#updateTransaction form #category');
+
+                    options.html(`
+                    <option value="">-- Not Choice --</option>
+                    ${
+                        categories.data.data.map((one) => {
+
+                            let selected = (transaction.data.data.category_id == one.id) ? 'selected' : '';
+
+                            return `<option value="${one.id}" ${selected}>${one.id} - ${one.name}</option>`
+                        })
+                    }
+                    `);
+                }
+            }
+
+            let urlUpdate = $(this).data('urlupdate');
+
+            let form = $('#updateTransaction form').attr('action', urlUpdate);
+            console.log(urlUpdate);
+
+            $('#updateTransaction').modal('show');
+
+        });
+
+    });
+</script>
 @endsection
