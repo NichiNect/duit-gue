@@ -42,7 +42,7 @@
                         <a href="{{ route('transactions.index') }}" class="nav-link"><i class="fas fa-money-check-alt mr-1"></i>Transactions</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link"><i class="fas fa-chart-bar mr-1"></i>Reports</a>
+                        <a href="{{ route('reports.index') }}" class="nav-link"><i class="fas fa-chart-bar mr-1"></i>Reports</a>
                     </li>
 
                     <li class="nav-item dropdown">

@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    public static $ACTIVE_STATUS = '1';
+    public static $INACTIVE_STATUS = '0';
+
     /**
      * Display a listing of the resource.
      *

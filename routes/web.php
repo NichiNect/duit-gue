@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReportController;
 use \App\Http\Controllers\{TransactionController, CategoryController};
 
 /*
@@ -30,5 +31,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/transactions/{id}/update', [TransactionController::class, 'update'])->name('transactions.update');
 
     Route::resource('/categories', CategoryController::class);
+
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 
 });

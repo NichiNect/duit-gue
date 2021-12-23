@@ -6,11 +6,19 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-use \App\Models\{Transaction};
+use \App\Models\{Transaction, Category};
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    /**
+     * Get List of Category
+     */
+    protected function getCategoryList()
+    {
+        return Category::orderBy('name')->where('is_active', 1)->get();
+    }
 
     /**
      * Get Transactions
