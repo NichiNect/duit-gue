@@ -23,7 +23,7 @@ class ReportController extends Controller
         $data = $this->getYearlyTransactionSummary($year, auth()->user()->id, $categoryId);
 
 
-        return view('reports.index', compact('year', 'data', 'categories', 'categoryId'));
+        return view('reports.index', compact('year', 'month', 'data', 'categories', 'categoryId'));
     }
 
     /**
@@ -64,8 +64,6 @@ class ReportController extends Controller
                         ->groupBy(DB::raw('MONTH(date)'))
                         ->get();
 
-        $reports = [];
-
         gettype($reportData);
         $monthNotAssign = 12 - count($reportData);
         $monthExisting = [];
@@ -78,18 +76,10 @@ class ReportController extends Controller
 
             $obj = new \stdClass;
             $obj->month = $i;
-            $obj->year = $reportData[0]->year;
+            $obj->year = $year;
             $obj->count = 0;
             $obj->transaction_in = "0";
             $obj->transaction_out = "0";
-
-            // $obj = [
-            //     "month" => 1,
-            //     "year" => $reportData[0]->year,
-            //     "count" => 4,
-            //     "transaction_in" => "0",
-            //     "transaction_out" => "0",
-            // ];
             
             if (!in_array($i, $monthExisting)) {
                 $reportData->push($obj);
