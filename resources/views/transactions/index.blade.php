@@ -118,7 +118,7 @@
                                             <div class="d-flex justify-content-between">
                                                 {{ $transaction->description }}
                                                 @if ($transaction->category)
-                                                <a href="">
+                                                <a href="{{ route('transactions.index') }}?category={{ $transaction->category->id }}">
                                                     <div class="badge badge-{{ $transaction->category->color }} badge-sm py-2">{{ $transaction->category->name }}</div>
                                                 </a>
                                                 @endif

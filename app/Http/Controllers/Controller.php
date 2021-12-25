@@ -25,7 +25,7 @@ class Controller extends BaseController
      */
     public function getTransactions($yearMonth) {
 
-        $categoryId = request('categoryId');
+        $categoryId = request('category');
 
         $transactionQuery = Transaction::query();
         $transactionQuery->where('date', 'like', $yearMonth .'%');
