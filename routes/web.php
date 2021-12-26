@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\Setting\{SettingController, UserProfileController};
 use \App\Http\Controllers\{TransactionController, CategoryController};
 
 /*
@@ -33,5 +34,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/categories', CategoryController::class);
 
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+
+    Route::get('/settings', [SettingController::class, 'index'])->name('settings.setting.index');
+    Route::get('/settings/get-view-content', [SettingController::class, 'getViewContent'])->name('settings.setting.getviewcontent');
+    Route::put('/settings/update-user-profile', [UserProfileController::class, 'updateProfile'])->name('settings.userprofile.updateprofile');
 
 });
