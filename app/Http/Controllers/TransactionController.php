@@ -110,7 +110,7 @@ class TransactionController extends Controller
             'description' => $request->description,
             'amount' => $request->amount,
             'category_id' => $request->category ? $request->category : null,
-            'transaction_status_id' => $request->transaction_status ? $request->transaction_status : null,
+            // 'transaction_status_id' => $request->transaction_status ? $request->transaction_status : null,
             'creator_id' => auth()->user()->id
         ]);
 

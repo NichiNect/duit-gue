@@ -264,7 +264,7 @@
 <x-modal name="updateTransaction" method="post" title="Edit Transaction" okButton="Edit" okButtonColorClass="primary" closeButton="Close" closeButtonColorClass="secondary">
     @csrf
     @method('put')
-    <input type="hidden" name="transaction_status" value="2">
+    {{-- <input type="hidden" name="transaction_status" value="2"> --}}
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
