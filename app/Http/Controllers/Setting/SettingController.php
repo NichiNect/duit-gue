@@ -30,7 +30,7 @@ class SettingController extends Controller
         if ($params == 'user-profile') {
             return view('settings.user-profile.user-profile', compact('user'));
         } else if ($params == 'change-password') {
-            return view('settings.change-password', compact('user'));
+            return view('settings.change-password.change-password', compact('user'));
         } else if ($params == 'category-setting') {
             return view('settings.category-setting', compact('categories'));
         }

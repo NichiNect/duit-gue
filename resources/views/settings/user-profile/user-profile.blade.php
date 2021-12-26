@@ -50,8 +50,12 @@
                             </td>
                             <td></td>
                             <td class="text-right">
-                                <a href="#" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                                <a href="{{ route('logout') }}" class="btn btn-danger" onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i> Logout</a>
                             </td>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         </tr>
                     </tfoot>
                 </table>

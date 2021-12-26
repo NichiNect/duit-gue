@@ -38,5 +38,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.setting.index');
     Route::get('/settings/get-view-content', [SettingController::class, 'getViewContent'])->name('settings.setting.getviewcontent');
     Route::put('/settings/update-user-profile', [UserProfileController::class, 'updateProfile'])->name('settings.userprofile.updateprofile');
+    Route::patch('/settings/change-password', [UserProfileController::class, 'changePassword'])->name('settings.userprofile.changepassword');
 
 });
