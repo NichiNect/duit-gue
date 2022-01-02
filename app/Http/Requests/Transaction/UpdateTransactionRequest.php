@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Transaction;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class TransactionRequest extends FormRequest
+class UpdateTransactionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,8 +28,7 @@ class TransactionRequest extends FormRequest
             'date' => 'required',
             'category' => 'nullable|numeric',
             'description' => 'required|max:255',
-            'amount' => 'required|numeric',
-            'transaction_status' => ['required', Rule::in([1, 2])]
+            'amount' => 'required|numeric'
         ];
     }
 }

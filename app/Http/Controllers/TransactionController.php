@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\{Category, Transaction};
 use Illuminate\Http\Request;
-use App\Http\Requests\TransactionRequest;
+use App\Http\Requests\Transaction\{InsertTransactionRequest, UpdateTransactionRequest};
 
 class TransactionController extends Controller
 {
@@ -48,7 +48,7 @@ class TransactionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TransactionRequest $request)
+    public function store(InsertTransactionRequest $request)
     {
         $transaction = Transaction::create([
             'date' => $request->date,
@@ -100,7 +100,7 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TransactionRequest $request, $id)
+    public function update(UpdateTransactionRequest $request, $id)
     {
         $transaction = Transaction::findOrFail($id);
 

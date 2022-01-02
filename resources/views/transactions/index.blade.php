@@ -101,6 +101,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Date</th>
+                                        <th>Transaction Status</th>
                                         <th>Transaction Description</th>
                                         <th>Amount</th>
                                         <th>Action</th>
@@ -114,6 +115,9 @@
                                             {{ $key+=1 }}
                                         </td>
                                         <td>{{ $transaction->date }}</td>
+                                        <td>
+                                            <p class="font-italic">{{ $transaction->transaction_status->status_name }}</p>
+                                        </td>
                                         <td>
                                             <div class="d-flex justify-content-between">
                                                 {{ $transaction->description }}
@@ -138,17 +142,17 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th colspan="3" class="text-right">Income Total</th>
+                                        <th colspan="4" class="text-right">Income Total</th>
                                         <th class="text-right">Rp. {{ number_format($incomeTotal) }}</th>
                                         <th>&nbsp;</th>
                                     </tr>
                                     <tr>
-                                        <th colspan="3" class="text-right">Spending Total</th>
+                                        <th colspan="4" class="text-right">Spending Total</th>
                                         <th class="text-right">Rp. {{ number_format($spendingTotal) }}</th>
                                         <th>&nbsp;</th>
                                     </tr>
                                     <tr>
-                                        <th colspan="3" class="text-right">Final Total</th>
+                                        <th colspan="4" class="text-right">Final Total</th>
                                         <th class="text-right">Rp. {{ number_format($incomeTotal - $spendingTotal) }}</th>
                                         <th>&nbsp;</th>
                                     </tr>
