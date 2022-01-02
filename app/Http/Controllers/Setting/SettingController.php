@@ -38,6 +38,9 @@ class SettingController extends Controller
           else if ($params == 'edit-user-profile') {
                 return view('settings.user-profile.edit-user-profile', compact('user'));
           }
+          else if ($params == 'new-category') {
+              return view('settings.category-setting.new-category', compact('user'));
+          }
 
         return response()->json([
             'status' => 404,
