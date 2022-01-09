@@ -52,7 +52,7 @@
                                 <td>{{ $category->created_at->diffForHumans() . ', ' . $category->created_at }}</td>
                                 <td>
                                     <a href="{{ route('transactions.index') }}?category={{ $category->id }}" class="btn btn-link py-1 px-1">Browse Transaction</a>
-                                    <a href="" id="edit-category" class="btn btn-warning text-white py-1 px-1">Edit</a>
+                                    <a href="#" data-urlupdate="{{ route('settings.category.updatecategory', $category->id) }}" data-urldata="{{ route('categories.show', $category->id) }}" id="btnUpdateCategory" class="btn btn-warning text-white py-1 px-1">Edit</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -62,6 +62,46 @@
         </div>
     </div>
 </div>
+
+<x-modal name="updateCategoryModal" method="post" title="Edit Category" okButton="Submit" okButtonColorClass="success" closeButton="Close" closeButtonColorClass="secondary">
+    @csrf
+    @method('put')
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="category_name">Category Name</label>
+                <input type="text" name="category_name" class="form-control" id="category_name" placeholder="Fill category name field..">
+            </div>
+            <div class="form-group">
+                <label for="category_description">Category Description</label>
+                <textarea name="category_description" id="category_description" cols="10" rows="5" class="form-control" placeholder="Fill category description field.."></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-between">
+        <div class="col-md-12">
+            <label for="color">Category Color</label>
+            <br>
+            <input type="radio" name="color" id="color-success" value="success">
+            <label for="color-success" class="btn btn-success py-3 px-4"></label>
+
+            <input type="radio" name="color" id="color-primary" value="primary">
+            <label for="color-primary" class="btn btn-primary py-3 px-4"></label>
+
+            <input type="radio" name="color" id="color-danger" value="danger">
+            <label for="color-danger" class="btn btn-danger py-3 px-4"></label>
+
+            <input type="radio" name="color" id="color-info" value="info">
+            <label for="color-info" class="btn btn-info py-3 px-4"></label>
+
+            <input type="radio" name="color" id="color-warning" value="warning">
+            <label for="color-warning" class="btn btn-warning py-3 px-4"></label>
+            
+            <input type="radio" name="color" id="color-secondary" value="secondary">
+            <label for="color-secondary" class="btn btn-secondary py-3 px-4"></label>
+        </div>
+    </div>
+</x-modal>
 
 <script>
     async function getView (url) {
@@ -89,5 +129,41 @@
         let href = $(this).attr('href');
 
         await getView(href);
-    })
+    });
+
+    $('table td #btnUpdateCategory').on('click', async function (e) {
+        e.preventDefault();
+
+        let url = $(this).data('urldata');
+
+        let category = await axios.get(url);
+
+        if (category.status == 200) {
+
+            let urlUpdate = $(this).data('urlupdate');
+
+            let form = $('#updateCategoryModal form').attr('action', urlUpdate);
+
+            let radio = $('#updateCategoryModal input[type=radio]');
+
+            console.log(form);
+
+            $('#updateCategoryModal #category_name').val(category.data.data.name);
+            $('#updateCategoryModal #category_description').val(category.data.data.description);
+            
+            console.log(category.data.data);
+
+            for (let i=0; i<radio.length; i++) {
+
+                if (category.data.data.color == radio[i]['value']) {
+                    
+                    $(`#updateCategoryModal input[value=${radio[i]['value']}]`).attr('checked', true);
+                } 
+            }
+
+            $('#updateCategoryModal').modal('show');
+        }
+
+    });
+
 </script>

@@ -32,4 +32,34 @@ class CategoryController extends Controller
 
         return redirect()->route('settings.setting.index')->with('success', 'New Category Created Successfully');
     }
+
+        /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateCategory(Request $request, $id)
+    {
+        $category = Category::findOrFail($id);
+
+        $request->validate([
+            'category_name' => 'required|string|max:60',
+            'category_description' => 'required|string|max:255',
+            'color' => 'required|string|max:10'
+        ]);
+
+        $category->update([
+            'name' => $request->category_name,
+            'description' => $request->category_description,
+            'color' => $request->color
+        ]);
+
+        if(!$category) {
+            return redirect()->route('settings.setting.index')->with('error', 'Failed to Update Category');
+        }
+
+        return redirect()->route('settings.setting.index')->with('success', 'Category Updated Successfully');
+    }
 }

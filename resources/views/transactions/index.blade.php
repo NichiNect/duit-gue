@@ -349,7 +349,6 @@
             let urlUpdate = $(this).data('urlupdate');
 
             let form = $('#updateTransaction form').attr('action', urlUpdate);
-            console.log(urlUpdate);
 
             $('#updateTransaction').modal('show');
 

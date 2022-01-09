@@ -38,7 +38,7 @@ class Category extends Model
      */
     public function creator ()
     {
-        return $this->belongsTo(Category::class, 'creator_id', 'id');
+        return $this->belongsTo(User::class, 'creator_id', 'id');
     }
 
 }

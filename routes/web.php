@@ -31,7 +31,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/transactions/{id}', [TransactionController::class, 'show'])->name('transactions.show');
     Route::put('/transactions/{id}/update', [TransactionController::class, 'update'])->name('transactions.update');
 
-    Route::resource('/categories', CategoryController::class);
+    Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+    Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
 
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 
@@ -40,5 +41,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/settings/update-user-profile', [UserProfileController::class, 'updateProfile'])->name('settings.userprofile.updateprofile');
     Route::patch('/settings/change-password', [UserProfileController::class, 'changePassword'])->name('settings.userprofile.changepassword');
     Route::post('/settings/new-category', [App\Http\Controllers\Setting\CategoryController::class, 'insertCategory'])->name('settings.category.insertcategory');
+    Route::put('/categories/{id}', [App\Http\Controllers\Setting\CategoryController::class, 'updateCategory'])->name('settings.category.updatecategory');
+
 
 });

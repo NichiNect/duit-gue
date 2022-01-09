@@ -17,7 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->string('name', 60);
             $table->string('description');
-            $table->string('color', 7);
+            $table->string('color', 10);
             $table->unsignedBigInteger('creator_id');
             $table->tinyInteger('is_active');
             $table->timestamps();
