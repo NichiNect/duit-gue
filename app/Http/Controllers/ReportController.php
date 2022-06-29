@@ -65,7 +65,8 @@ class ReportController extends Controller
                         ->get();
 
         gettype($reportData);
-        $monthNotAssign = 12 - count($reportData);
+        // $monthNotAssign = 12 - count($reportData);
+        $monthNotAssign = 12;
         $monthExisting = [];
 
         foreach ($reportData as $one) {

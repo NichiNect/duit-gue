@@ -79,7 +79,14 @@
                                         $years = Helper::getYears();
                                     @endphp
                                     @foreach ($years as $year)
-                                        <option value="{{ $year }}" @if ($year == date('Y', time())) selected @endif>{{ $year }}</option>
+                                        {{-- <option value="{{ $year }}" @if ($year == date('Y', time())) selected @endif>{{ $year }}</option> --}}
+                                        <option value="{{ $year }}" @if ($year == request('year'))
+                                            selected
+                                        @elseif (request('year') === null)
+                                            @if ($year == date('Y', time()))
+                                                selected
+                                            @endif
+                                        @endif>{{ $year }}</option>
                                     @endforeach
                                 </select>
                                 <select name="category" id="category" class="form-control mx-2">
