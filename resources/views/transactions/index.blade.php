@@ -97,7 +97,7 @@
                                     @endforeach
                                 </select>
                                 <button type="submit" class="btn btn-primary mx-2">Submit</button>
-                                <button type="reset" class="btn btn-secondary mx-2">Reset</button>
+                                <a href="{{ route('transactions.index') }}" type="reset"  class="btn btn-secondary mx-2">Reset</a>
                             </form>
                         </div>
                     </div>
