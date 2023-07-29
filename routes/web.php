@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReportController;
-use App\Http\Controllers\Setting\{SettingController, UserProfileController};
-use \App\Http\Controllers\{TransactionController, CategoryController};
+use App\Http\Controllers\Setting\{SettingController, UserProfileController, CategoryController as Setting_CategoryController};
+use App\Http\Controllers\{TransactionController, CategoryController};
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,8 +41,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/settings/get-view-content', [SettingController::class, 'getViewContent'])->name('settings.setting.getviewcontent');
     Route::put('/settings/update-user-profile', [UserProfileController::class, 'updateProfile'])->name('settings.userprofile.updateprofile');
     Route::patch('/settings/change-password', [UserProfileController::class, 'changePassword'])->name('settings.userprofile.changepassword');
-    Route::post('/settings/new-category', [App\Http\Controllers\Setting\CategoryController::class, 'insertCategory'])->name('settings.category.insertcategory');
-    Route::put('/categories/{id}', [App\Http\Controllers\Setting\CategoryController::class, 'updateCategory'])->name('settings.category.updatecategory');
-
-
+    Route::post('/settings/new-category', [CategoryController::class, 'insertCategory'])->name('settings.category.insertcategory');
+    Route::put('/categories/{id}', [Setting_CategoryController::class, 'updateCategory'])->name('settings.category.updatecategory');
 });
