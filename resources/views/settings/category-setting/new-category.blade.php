@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="category_description" class="col-sm-2 col-form-label">Category Name</label>
+                    <label for="category_description" class="col-sm-2 col-form-label">Category Description</label>
                     <div class="col-sm-10">
                         <textarea name="category_description" id="category_description" cols="10" rows="5" class="form-control" placeholder="Fill category description field.."></textarea>
                     </div>
