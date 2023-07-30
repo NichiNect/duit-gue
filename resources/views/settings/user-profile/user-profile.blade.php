@@ -12,8 +12,8 @@
             <small class="text-muted font-italic">Last updated data at: {{ $user->updated_at->diffForHumans() . ', ' . $user->updated_at }}</small>
         </div>
     </div>
-    <div class="row my-3">
-        <div class="col-lg-8 offset-2">
+    <div class="row my-3 justify-content-center">
+        <div class="col-lg-8">
             <div class="table-responsive">
                 <table class="table table-striped table-border">
                     <tbody>

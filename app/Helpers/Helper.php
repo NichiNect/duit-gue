@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Helpers;
-use DB;
-use \App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class Helper {
     

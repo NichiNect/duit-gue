@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-md-4">
+        <div class="col-md-4 my-2">
             <div class="card shadow-lg">
                 <div class="card-header">Income</div>
                 <div class="card-body">
@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 my-2">
             <div class="card shadow-lg">
                 <div class="card-header">Spending</div>
                 <div class="card-body">
@@ -29,7 +29,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 my-2">
             <div class="card shadow-lg">
                 <div class="card-header">Different</div>
                 <div class="card-body">
@@ -47,7 +47,7 @@
 
     <div class="row justify-content-center my-3">
         <div class="col-md-12">
-            <div class="card shadow-sm">
+            <div class="card shadow-lg">
                 <div class="card-body">
                     <div class="row justify-content-center mb-3">
                         <div class="col-md-12">
@@ -103,75 +103,77 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Date</th>
-                                        <th>Transaction Status</th>
-                                        <th>Transaction Description</th>
-                                        <th>Amount</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($transactions as $key => $transaction)
-                                    <tr>
-                                        <td>
-                                            {{-- {{ $transactions->count() * ($transactions->currentPage() - 1) + $loop->iteration }} --}}
-                                            {{ $key+=1 }}
-                                        </td>
-                                        <td>{{ $transaction->date }}</td>
-                                        <td>
-                                            <p class="font-italic">{{ $transaction->transaction_status->status_name }}</p>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-between">
-                                                {{ $transaction->description }}
-                                                @if ($transaction->category)
-                                                <a href="{{ route('transactions.index') }}?category={{ $transaction->category->id }}">
-                                                    <div class="badge badge-{{ $transaction->category->color }} badge-sm py-2">{{ $transaction->category->name }}</div>
-                                                </a>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Date</th>
+                                            <th>Transaction Status</th>
+                                            <th>Transaction Description</th>
+                                            <th>Amount</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($transactions as $key => $transaction)
+                                        <tr>
+                                            <td>
+                                                {{-- {{ $transactions->count() * ($transactions->currentPage() - 1) + $loop->iteration }} --}}
+                                                {{ $key+=1 }}
+                                            </td>
+                                            <td>{{ $transaction->date }}</td>
+                                            <td>
+                                                <p class="font-italic">{{ $transaction->transaction_status->status_name }}</p>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex justify-content-between">
+                                                    {{ $transaction->description }}
+                                                    @if ($transaction->category)
+                                                    <a href="{{ route('transactions.index') }}?category={{ $transaction->category->id }}">
+                                                        <div class="badge badge-{{ $transaction->category->color }} badge-sm py-2">{{ $transaction->category->name }}</div>
+                                                    </a>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                            <td class="text-right">
+                                                @if ($transaction->transaction_status_id == 2)
+                                                    -
                                                 @endif
-                                            </div>
-                                        </td>
-                                        <td class="text-right">
-                                            @if ($transaction->transaction_status_id == 2)
-                                                -
-                                            @endif
-                                            Rp. {{ number_format($transaction->amount) }}
-                                        </td>
-                                        <td>
-                                            <a class="btn btn-link" id="editbutton" data-url="{{ route('transactions.show', $transaction->id) }}" data-urlupdate="{{ route('transactions.update', $transaction->id) }}">Edit</a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="4" class="text-right">Income Total</th>
-                                        <th class="text-right">Rp. {{ number_format($incomeTotal) }}</th>
-                                        <th>&nbsp;</th>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="4" class="text-right">Spending Total</th>
-                                        <th class="text-right">Rp. {{ number_format($spendingTotal) }}</th>
-                                        <th>&nbsp;</th>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="4" class="text-right">Final Total</th>
-                                        <th class="text-right">Rp. {{ number_format($incomeTotal - $spendingTotal) }}</th>
-                                        <th>&nbsp;</th>
-                                    </tr>
-                                    <tr>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                                                Rp. {{ number_format($transaction->amount) }}
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-link" id="editbutton" data-url="{{ route('transactions.show', $transaction->id) }}" data-urlupdate="{{ route('transactions.update', $transaction->id) }}">Edit</a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="4" class="text-right">Income Total</th>
+                                            <th class="text-right">Rp. {{ number_format($incomeTotal) }}</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="4" class="text-right">Spending Total</th>
+                                            <th class="text-right">Rp. {{ number_format($spendingTotal) }}</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="4" class="text-right">Final Total</th>
+                                            <th class="text-right">Rp. {{ number_format($incomeTotal - $spendingTotal) }}</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
