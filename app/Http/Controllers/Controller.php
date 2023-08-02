@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -29,7 +30,11 @@ class Controller extends BaseController
 
         $transactionQuery = Transaction::query();
         $transactionQuery->where('date', 'like', $yearMonth .'%');
-        $transactionQuery->where('description', 'like', '%' . request('query') . '%');
+        
+        if (request('query')) {
+
+            $transactionQuery = $transactionQuery->where('description', 'like', '%' . request('query') . '%');
+        }
 
         $transactionQuery->when($categoryId, function ($qb, $categoryId) {
             if ($categoryId == null) {
@@ -70,7 +75,7 @@ class Controller extends BaseController
         $date = request('date');
         $year = request('year', date('Y'));
         $month = request('month', date('m'));
-        $getMonth = \Helper::getMonths();
+        $getMonth = Helper::getMonths();
 
         for ($i=0; $i<count($getMonth); $i++) {
 
@@ -91,10 +96,26 @@ class Controller extends BaseController
 
             if (checkdate($explodedYearMonth[1], $date, $explodedYearMonth[0])) {
                 
-                return $explodedYearMonth[0].'-'.$explodedYearMonth[1].'-'.$date;
+                if (strlen($explodedYearMonth[1]) == 1) {
+
+                    $zeroPaddingMonth = $explodedYearMonth[1] = '0' . $explodedYearMonth[1];
+                    return $explodedYearMonth[0].'-'.$zeroPaddingMonth.'-'.$date;
+                } else {
+
+                    return $explodedYearMonth[0].'-'.$explodedYearMonth[1].'-'.$date;
+                }
+
             }
 
-            return $explodedYearMonth[0].'-'.$explodedYearMonth[1];
+            if (strlen($explodedYearMonth[1]) == 1) {
+
+                $zeroPaddingMonth = $explodedYearMonth[1] = '0' . $explodedYearMonth[1];
+                return $explodedYearMonth[0].'-'.$zeroPaddingMonth;
+            } else {
+
+                return $explodedYearMonth[0].'-'.$explodedYearMonth[1];
+            }
+
         }
 
         return date('Y-m');
